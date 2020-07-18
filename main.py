@@ -19,11 +19,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('mainwindow.ui', self)
-        label = QLabel("THIS IS AWESOME!!!")
-        label.setAlignment(Qt.AlignCenter)
-        self.setCentralWidget(label)
-        #self.toolBar.setIconSize(QSize(16, 16))
+        # self.toolBar.setIconSize(QSize(16, 16))
 
+        # prepare save printout icon
         save_printout_icon = QIcon(QApplication.style().standardIcon(QStyle.SP_DriveFDIcon))
         save_printout_button_action = QAction(save_printout_icon, "Save printout", self)
         save_printout_button_action.setStatusTip("This is save printout button")
@@ -31,6 +29,7 @@ class MainWindow(QtWidgets.QMainWindow):
         save_printout_button_action.setCheckable(True)
         self.toolBar.addAction(save_printout_button_action)
 
+        # prepare trash printout icon
         trash_icon = QIcon(QApplication.style().standardIcon(QStyle.SP_TrashIcon))
         trash_button_action = QAction(trash_icon, "Trash printout", self)
         trash_button_action.setStatusTip("This is trash printout button")
@@ -41,6 +40,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.handel_buttons()
 
     def handel_buttons(self):
+        self.getExpenseButton.clicked.connect(self.get_expense)
+        self.getDepositButton.clicked.connect(self.get_deposit)
+
+    def get_expense(self):
+        amount_text = float(self.amountText.text())
+        print(amount_text)
+        
+    def get_deposit(self):
         pass
 
     def save_printout(self):
