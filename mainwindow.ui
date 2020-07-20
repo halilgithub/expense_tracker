@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>635</width>
-    <height>610</height>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,72 +20,213 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
-    <property name="spacing">
-     <number>40</number>
+   <widget class="QPushButton" name="addExpenseButton">
+    <property name="enabled">
+     <bool>true</bool>
     </property>
-    <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>44</y>
+      <width>115</width>
+      <height>41</height>
+     </rect>
     </property>
-    <property name="leftMargin">
-     <number>40</number>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(239, 41, 41);</string>
     </property>
-    <property name="topMargin">
-     <number>40</number>
+    <property name="text">
+     <string>Add Item 
+as Expense</string>
     </property>
-    <property name="rightMargin">
-     <number>40</number>
+   </widget>
+   <widget class="QPushButton" name="addDepositButton">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>44</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
     </property>
-    <property name="bottomMargin">
-     <number>40</number>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(115, 210, 22);</string>
     </property>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>60</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="getExpenseButton">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(239, 41, 41);</string>
-        </property>
-        <property name="text">
-         <string>Add as Expense</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="amountText">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="cursorPosition">
-         <number>0</number>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="getDepositButton">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(115, 210, 22);</string>
-        </property>
-        <property name="text">
-         <string>Add as Deposit</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QListWidget" name="listWidget"/>
-    </item>
-   </layout>
+    <property name="text">
+     <string>Add Item
+as Deposit</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="descriptionText">
+    <property name="geometry">
+     <rect>
+      <x>234</x>
+      <y>74</y>
+      <width>231</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="cursorPosition">
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="amountL">
+    <property name="geometry">
+     <rect>
+      <x>164</x>
+      <y>50</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>amount:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="desL">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>80</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>description:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>301</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Please input an amount and a description:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="removeItemButton">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>120</y>
+      <width>111</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(114, 159, 207);</string>
+    </property>
+    <property name="text">
+     <string>Remove Item</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>540</y>
+      <width>171</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="balanceL">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>549</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Balance:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="currL">
+    <property name="geometry">
+     <rect>
+      <x>586</x>
+      <y>547</y>
+      <width>31</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>euro</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="currL_2">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>50</y>
+      <width>31</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>euro</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>596</width>
+      <height>371</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="amountText">
+    <property name="geometry">
+     <rect>
+      <x>234</x>
+      <y>44</y>
+      <width>171</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="cursorPosition">
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">

@@ -5,6 +5,13 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import *
 import sys
 
+class CustomQWidget(QWidget):
+    def __init__(self, label_str, parent=None):
+        super(CustomQWidget, self).__init__(parent)
+        label = QLabel(label_str)
+        layout = QHBoxLayout()
+        layout.addWidget(label)
+        self.setLayout(layout)
 
 def show_warning(message_text, informative_text):
     msg = QMessageBox()
@@ -19,7 +26,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('mainwindow.ui', self)
-        # self.toolBar.setIconSize(QSize(16, 16))
 
         # prepare save printout icon
         save_printout_icon = QIcon(QApplication.style().standardIcon(QStyle.SP_DriveFDIcon))
@@ -36,18 +42,64 @@ class MainWindow(QtWidgets.QMainWindow):
         trash_button_action.triggered.connect(self.trash_printout)
         trash_button_action.setCheckable(True)
         self.toolBar.addAction(trash_button_action)
+        self.amount = None
+        self.description = None
+        self.rowstr = None
+        self.item = None
 
         self.handel_buttons()
 
-    def handel_buttons(self):
-        self.getExpenseButton.clicked.connect(self.get_expense)
-        self.getDepositButton.clicked.connect(self.get_deposit)
-
-    def get_expense(self):
-        amount_text = float(self.amountText.text())
-        print(amount_text)
         
-    def get_deposit(self):
+
+    def handel_buttons(self):
+        self.addExpenseButton.clicked.connect(self.add_item_as_expense)
+        self.addDepositButton.clicked.connect(self.add_item_as_deposit)
+        self.removeItemButton.clicked.connect(self.remove_item)
+
+    def clear_inputs(self):
+        self.amountText.setText('')
+        self.descriptionText.setText('')
+        self.amount = None
+        self.description = None
+        self.rowstr = None
+        self.item = None
+
+    def add_item_as_expense(self):
+        try:
+            self.amount = float(self.amountText.text())
+        except ValueError:
+            show_warning('Amount is Invalid', 'Please input a Valid amount')
+            self.clear_inputs()
+            return
+
+        if self.amount != 0.0:
+            self.amount = -1 * self.amount
+        self.description = self.descriptionText.text()
+        blank = ''
+        colon = '|'
+
+        self.item = QListWidgetItem(self.listWidget)
+        self.rowstr = f'{self.description:<30} {colon:<30} {self.amount:<30} {colon:<30} {blank:<30}'
+        item_widget = CustomQWidget(self.rowstr)
+        self.item.setSizeHint(item_widget.sizeHint())
+        self.listWidget.addItem(self.item)
+        self.listWidget.setItemWidget(self.item, item_widget)
+
+        self.clear_inputs()
+
+    def add_item_as_deposit(self):
+        try:
+            self.amount = float(self.amountText.text())
+        except ValueError:
+            show_warning('Amount is Invalid', 'Please input a Valid amount')
+            self.clear_inputs()
+            return
+
+        self.description = self.descriptionText.text()
+        
+        self.clear_inputs()
+
+    def remove_item(self):
         pass
 
     def save_printout(self):
