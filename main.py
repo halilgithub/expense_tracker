@@ -45,16 +45,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.toolBar.addAction(trash_button_action)
         self.amount = None
         self.description = None
-        self.rowstr = None
+        self.row_str = None
         self.item = None
+        self.blank = '{:>40}'.format(' ')
 
-        #self.listWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        #self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        #self.listWidget.setFixedSize(self.listWidget.sizeHintForColumn(0) + 2 * self.listWidget.frameWidth(), self.listWidget.sizeHintForRow(0) * self.listWidget.count() + 2 * self.listWidget.frameWidth())
-        self.listWidget.setFixedSize(596, 371)
         self.handel_buttons()
-
-        
 
     def handel_buttons(self):
         self.addExpenseButton.clicked.connect(self.add_item_as_expense)
@@ -66,7 +61,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.descriptionText.setText('')
         self.amount = None
         self.description = None
-        self.rowstr = None
+        self.row_str = None
         self.item = None
 
     def add_item_as_expense(self):
@@ -81,15 +76,13 @@ class MainWindow(QtWidgets.QMainWindow):
             self.amount = -1 * self.amount
         self.description = self.descriptionText.text()
         self.amount = str(self.amount)
-        blank = ''
-        colon = '|'
-        colon = ('{:>45}'.format(colon))[:45]
 
+        self.description = '{:>40}'.format(self.description)
+        self.amount = '{:>40}'.format(self.amount)
+        self.row_str = self.description + self.amount + self.blank
+        
         self.item = QListWidgetItem(self.listWidget)
-        self.description = ('{:>45}'.format(self.description))[:45]
-        self.amount = ('{:>45}'.format(self.amount))
-        self.rowstr = self.description + self.amount + colon
-        item_widget = CustomQWidget(self.rowstr)
+        item_widget = CustomQWidget(self.row_str)
         self.item.setSizeHint(item_widget.sizeHint())
         self.listWidget.addItem(self.item)
         self.listWidget.setItemWidget(self.item, item_widget)
