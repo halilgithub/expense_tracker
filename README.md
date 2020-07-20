@@ -1,4 +1,4 @@
-# UNDER CONSTRUCTION !
+# Project is being developed... !
 
 # expense_tracker
 a sample expense tracker application using PyQt5
