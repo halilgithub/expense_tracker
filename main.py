@@ -3,12 +3,13 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import *
-import sys
+from PyQt5 import QtCore
 
 class CustomQWidget(QWidget):
     def __init__(self, label_str, parent=None):
         super(CustomQWidget, self).__init__(parent)
         label = QLabel(label_str)
+        label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
         layout = QHBoxLayout()
         layout.addWidget(label)
         self.setLayout(layout)
@@ -47,6 +48,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.rowstr = None
         self.item = None
 
+        #self.listWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        #self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        #self.listWidget.setFixedSize(self.listWidget.sizeHintForColumn(0) + 2 * self.listWidget.frameWidth(), self.listWidget.sizeHintForRow(0) * self.listWidget.count() + 2 * self.listWidget.frameWidth())
+        
         self.handel_buttons()
 
         
@@ -75,11 +80,15 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.amount != 0.0:
             self.amount = -1 * self.amount
         self.description = self.descriptionText.text()
+        self.amount = str(self.amount)
         blank = ''
         colon = '|'
+        colon = ('{:>45}'.format(colon))[:45]
 
         self.item = QListWidgetItem(self.listWidget)
-        self.rowstr = f'{self.description:<30} {colon:<30} {self.amount:<30} {colon:<30} {blank:<30}'
+        self.description = ('{:>45}'.format(self.description))[:45]
+        self.amount = ('{:>45}'.format(self.amount))
+        self.rowstr = self.description + self.amount + colon
         item_widget = CustomQWidget(self.rowstr)
         self.item.setSizeHint(item_widget.sizeHint())
         self.listWidget.addItem(self.item)
