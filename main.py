@@ -51,7 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #self.listWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         #self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         #self.listWidget.setFixedSize(self.listWidget.sizeHintForColumn(0) + 2 * self.listWidget.frameWidth(), self.listWidget.sizeHintForRow(0) * self.listWidget.count() + 2 * self.listWidget.frameWidth())
-        
+        self.listWidget.setFixedSize(596, 371)
         self.handel_buttons()
 
         
