@@ -79,7 +79,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
-        self.row_str = self.description + self.amount
+        self.row_str = self.description + self.amount + self.blank
         print(self.row_str)
         self.item = QListWidgetItem(self.listWidget)
         item_widget = CustomQWidget(self.row_str)
