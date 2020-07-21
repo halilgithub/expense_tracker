@@ -35,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
         save_printout_button_action = QAction(save_printout_icon, "Save printout", self)
         save_printout_button_action.setStatusTip("This is save printout button")
         save_printout_button_action.triggered.connect(self.save_printout)
-        save_printout_button_action.setCheckable(True)
+        save_printout_button_action.setCheckable(False)
         self.toolBar.addAction(save_printout_button_action)
 
         # prepare trash printout icon
@@ -43,7 +43,7 @@ class MainWindow(QtWidgets.QMainWindow):
         trash_button_action = QAction(trash_icon, "Trash printout", self)
         trash_button_action.setStatusTip("This is trash printout button")
         trash_button_action.triggered.connect(self.trash_printout)
-        trash_button_action.setCheckable(True)
+        trash_button_action.setCheckable(False)
         self.toolBar.addAction(trash_button_action)
         self.amount = None
         self.description = None
@@ -91,6 +91,7 @@ class MainWindow(QtWidgets.QMainWindow):
         item_widget = CustomQWidget(self.label_str_list)
         self.item.setSizeHint(item_widget.sizeHint())
         self.item.setWhatsThis(self.amount)
+        self.item.setData(QtCore.Qt.UserRole, self.label_str_list)
         self.listWidget.addItem(self.item)
         self.listWidget.setItemWidget(self.item, item_widget)
         self.update_balance()
@@ -121,6 +122,7 @@ class MainWindow(QtWidgets.QMainWindow):
         item_widget = CustomQWidget(self.label_str_list)
         self.item.setSizeHint(item_widget.sizeHint())
         self.item.setWhatsThis(self.amount)
+        self.item.setData(QtCore.Qt.UserRole, self.label_str_list)
         self.listWidget.addItem(self.item)
         self.listWidget.setItemWidget(self.item, item_widget)
         self.update_balance()
@@ -138,20 +140,24 @@ class MainWindow(QtWidgets.QMainWindow):
         self.update_balance()
 
     def update_balance(self):
-        # items = []
-        # for index in range(self.listWidget.count()):
-        #     items.append(self.listWidget.item(index))
-        # for item in items:
-        #     for widget in item
-        #         print(widget.text())
-
         self.balanceEdit.setText(str(self.balance))
 
+    def get_file_name(self):
+        text, ok_pressed = QInputDialog.getText(self, "Get text", "Your name:", QLineEdit.Normal, "")
+        if ok_pressed and text != '':
+            print(text)
+
     def save_printout(self):
-        pass
+        self.get_file_name()
+        items = []
+        for index in range(self.listWidget.count()):
+            items.append(self.listWidget.item(index))
+
 
     def trash_printout(self):
-        pass
+        self.clear_inputs()
+        self.listWidget.clear()
+        self.balanceEdit.setText('')
 
 
 def main():
