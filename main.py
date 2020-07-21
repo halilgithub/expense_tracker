@@ -55,7 +55,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def handel_buttons(self):
         self.addExpenseButton.clicked.connect(self.add_item_as_expense)
         self.addDepositButton.clicked.connect(self.add_item_as_deposit)
-        self.removeItemButton.clicked.connect(self.remove_item)
+        self.removeItemButton.clicked.connect(self.remove_sel_item)
 
     def clear_inputs(self):
         self.amountText.setText('')
@@ -73,10 +73,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.clear_inputs()
             return
 
-        if self.amount != 0.0:
-            self.amount = -1 * self.amount
         self.description = self.descriptionText.text()
-        self.amount = str(self.amount)
+        self.amount = '-' + str(abs(self.amount))
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
 
@@ -101,7 +99,7 @@ class MainWindow(QtWidgets.QMainWindow):
             return
 
         self.description = self.descriptionText.text()
-        self.amount = str(self.amount)
+        self.amount = '+' + str(abs(self.amount))
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
 
@@ -117,7 +115,15 @@ class MainWindow(QtWidgets.QMainWindow):
         
         self.clear_inputs()
 
-    def remove_item(self):
+    def remove_sel_item(self):
+        list_items = self.listWidget.selectedItems()
+        if not list_items:
+            return
+        for item in list_items:
+            self.listWidget.takeItem(self.listWidget.row(item))
+            print(type(item))
+
+    def update_balance(self):
         pass
 
     def save_printout(self):
