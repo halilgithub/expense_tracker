@@ -1,9 +1,18 @@
 import sys
-from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtWidgets, uic, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
+
+
+def show_warning(message_text, informative_text):
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)
+    msg.setText(message_text)
+    msg.setInformativeText(informative_text)
+    msg.setWindowTitle("Warning")
+    msg.exec_()
+
 
 class CustomQWidget(QWidget):
     def __init__(self, label_str_list, parent=None):
@@ -14,14 +23,6 @@ class CustomQWidget(QWidget):
             label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
             layout.addWidget(label)
         self.setLayout(layout)
-
-def show_warning(message_text, informative_text):
-    msg = QMessageBox()
-    msg.setIcon(QMessageBox.Warning)
-    msg.setText(message_text)
-    msg.setInformativeText(informative_text)
-    msg.setWindowTitle("Warning")
-    msg.exec_()
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -49,7 +50,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.blank = ' ' * 40
         self.label_str_list = []
         self.item = None
-
+        self.balance = 0.0
         self.handel_buttons()
 
     def handel_buttons(self):
@@ -68,12 +69,16 @@ class MainWindow(QtWidgets.QMainWindow):
     def add_item_as_expense(self):
         try:
             self.amount = float(self.amountText.text())
+            if self.amount == 0.0:
+                raise ValueError
         except ValueError:
-            show_warning('Amount is Invalid', 'Please input a Valid amount')
+            show_warning('Amount is Invalid or Zero', 'Please enter a Valid amount')
             self.clear_inputs()
             return
 
         self.description = self.descriptionText.text()
+        amount_give = abs(self.amount)
+        self.balance -= amount_give
         self.amount = '-' + str(abs(self.amount))
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
@@ -85,20 +90,25 @@ class MainWindow(QtWidgets.QMainWindow):
         self.item = QListWidgetItem(self.listWidget)
         item_widget = CustomQWidget(self.label_str_list)
         self.item.setSizeHint(item_widget.sizeHint())
+        self.item.setWhatsThis(self.amount)
         self.listWidget.addItem(self.item)
         self.listWidget.setItemWidget(self.item, item_widget)
-
+        self.update_balance()
         self.clear_inputs()
 
     def add_item_as_deposit(self):
         try:
             self.amount = float(self.amountText.text())
+            if self.amount == 0.0:
+                raise ValueError
         except ValueError:
-            show_warning('Amount is Invalid', 'Please input a Valid amount')
+            show_warning('Amount is Invalid or Zero', 'Please enter a Valid amount')
             self.clear_inputs()
             return
 
         self.description = self.descriptionText.text()
+        amount_give = abs(self.amount)
+        self.balance += amount_give
         self.amount = '+' + str(abs(self.amount))
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
@@ -110,9 +120,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.item = QListWidgetItem(self.listWidget)
         item_widget = CustomQWidget(self.label_str_list)
         self.item.setSizeHint(item_widget.sizeHint())
+        self.item.setWhatsThis(self.amount)
         self.listWidget.addItem(self.item)
         self.listWidget.setItemWidget(self.item, item_widget)
-        
+        self.update_balance()
         self.clear_inputs()
 
     def remove_sel_item(self):
@@ -121,10 +132,20 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         for item in list_items:
             self.listWidget.takeItem(self.listWidget.row(item))
-            print(type(item))
+            amount = float(item.whatsThis())
+            self.balance -= amount
+
+        self.update_balance()
 
     def update_balance(self):
-        pass
+        # items = []
+        # for index in range(self.listWidget.count()):
+        #     items.append(self.listWidget.item(index))
+        # for item in items:
+        #     for widget in item
+        #         print(widget.text())
+
+        self.balanceEdit.setText(str(self.balance))
 
     def save_printout(self):
         pass
