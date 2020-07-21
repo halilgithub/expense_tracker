@@ -6,12 +6,13 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 
 class CustomQWidget(QWidget):
-    def __init__(self, label_str, parent=None):
+    def __init__(self, label_str_list, parent=None):
         super(CustomQWidget, self).__init__(parent)
-        label = QLabel(label_str)
-        label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
         layout = QHBoxLayout()
-        layout.addWidget(label)
+        for label_str in label_str_list:
+            label = QLabel(label_str)
+            label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+            layout.addWidget(label)
         self.setLayout(layout)
 
 def show_warning(message_text, informative_text):
@@ -45,9 +46,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.toolBar.addAction(trash_button_action)
         self.amount = None
         self.description = None
-        self.row_str = None
-        self.item = None
         self.blank = ' ' * 40
+        self.label_str_list = []
+        self.item = None
 
         self.handel_buttons()
 
@@ -61,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.descriptionText.setText('')
         self.amount = None
         self.description = None
-        self.row_str = None
+        self.label_str_list = []
         self.item = None
 
     def add_item_as_expense(self):
@@ -76,13 +77,15 @@ class MainWindow(QtWidgets.QMainWindow):
             self.amount = -1 * self.amount
         self.description = self.descriptionText.text()
         self.amount = str(self.amount)
-
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
-        self.row_str = self.description + self.amount + self.blank
-        print(self.row_str)
+
+        self.label_str_list.append(self.description)
+        self.label_str_list.append(self.amount)
+        self.label_str_list.append(self.blank)
+
         self.item = QListWidgetItem(self.listWidget)
-        item_widget = CustomQWidget(self.row_str)
+        item_widget = CustomQWidget(self.label_str_list)
         self.item.setSizeHint(item_widget.sizeHint())
         self.listWidget.addItem(self.item)
         self.listWidget.setItemWidget(self.item, item_widget)
@@ -98,6 +101,19 @@ class MainWindow(QtWidgets.QMainWindow):
             return
 
         self.description = self.descriptionText.text()
+        self.amount = str(self.amount)
+        self.description = '{:>40}'.format(self.description)
+        self.amount = '{:>40}'.format(self.amount)
+
+        self.label_str_list.append(self.description)
+        self.label_str_list.append(self.blank)
+        self.label_str_list.append(self.amount)
+
+        self.item = QListWidgetItem(self.listWidget)
+        item_widget = CustomQWidget(self.label_str_list)
+        self.item.setSizeHint(item_widget.sizeHint())
+        self.listWidget.addItem(self.item)
+        self.listWidget.setItemWidget(self.item, item_widget)
         
         self.clear_inputs()
 
