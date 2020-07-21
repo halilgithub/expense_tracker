@@ -1,4 +1,5 @@
 import sys
+from os import path
 from PyQt5.QtGui import *
 from PyQt5 import QtWidgets, uic, QtGui
 from PyQt5.QtWidgets import *
@@ -143,16 +144,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.balanceEdit.setText(str(self.balance))
 
     def get_file_name(self):
-        text, ok_pressed = QInputDialog.getText(self, "Get text", "Your name:", QLineEdit.Normal, "")
+        text, ok_pressed = QInputDialog.getText(self, "Save as txt", "Please enter name of txt file:", QLineEdit.Normal,
+                                                "")
         if ok_pressed and text != '':
-            print(text)
+            return text
 
     def save_printout(self):
-        self.get_file_name()
+        file_name = self.get_file_name()
+        file_name = 'txt/' + file_name + '.txt'
+        if path.exists(file_name):
+            show_warning('It already exists', 'Please enter a unique File name !')
+            return
         items = []
         for index in range(self.listWidget.count()):
             items.append(self.listWidget.item(index))
+        with open(file_name, 'w') as f:
+            for item in items:
+                f.write(''.join(item.data(QtCore.Qt.UserRole)))
+                f.write('\n')
 
+            balance = 'Balance: ' + str(self.balance) + ' \u20ac'
+            under_score = '_' * len(balance)
+            f.write('{:>120}'.format(under_score))
+            f.write('\n')
+            f.write('{:>120}'.format(balance))
 
     def trash_printout(self):
         self.clear_inputs()
