@@ -47,7 +47,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.description = None
         self.row_str = None
         self.item = None
-        self.blank = '{:>40}'.format(' ')
+        self.blank = ' ' * 40
 
         self.handel_buttons()
 
@@ -79,8 +79,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
-        self.row_str = self.description + self.amount + self.blank
-        
+        self.row_str = self.description + self.amount
+        print(self.row_str)
         self.item = QListWidgetItem(self.listWidget)
         item_widget = CustomQWidget(self.row_str)
         self.item.setSizeHint(item_widget.sizeHint())
