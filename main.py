@@ -150,14 +150,14 @@ class MainWindow(QtWidgets.QMainWindow):
         # dialog.setWindowFlag(Qt.WindowContextHelpButtonHint, False)
         text, ok_pressed = QInputDialog().getText(self, "Save as txt", "Please enter name of txt file:", QLineEdit.Normal,
                                        "")
-        while True:
-            if ok_pressed and text != '':
-                return text
-            elif ok_pressed and text == '':
-                show_warning('Invalid file name', 'Try the menu button again !')
-                return ''
-            else:
-                return ''
+
+        if ok_pressed and text != '':
+            return text
+        elif ok_pressed and text == '':
+            show_warning('Invalid file name', 'Try the menu button again !')
+            return ''
+        else:
+            return ''
 
     def save_printout(self):
         file_name = self.get_file_name()
