@@ -25,7 +25,8 @@ Basically you can:
 
 ## usage
 
-Execute the program from command line:
+Python 3 and PyQt5 library must be installed on your system.
+Come to project folder and Execute the program from command line:
 
 ```console
 foo@bar:~$ python main.py
