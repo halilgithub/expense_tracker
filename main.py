@@ -4,7 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5 import QtWidgets, uic, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
-
+from PyQt5.QtCore import Qt
 
 def show_warning(message_text, informative_text):
     msg = QMessageBox()
@@ -30,6 +30,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('mainwindow.ui', self)
+
+        # self.setWindowFlags(self.windowFlags() ^ Qt.WindowContextHelpButtonHint)
 
         # prepare save printout icon
         save_printout_icon = QIcon(QApplication.style().standardIcon(QStyle.SP_DriveFDIcon))
@@ -144,13 +146,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.balanceEdit.setText(str(self.balance))
 
     def get_file_name(self):
-        text, ok_pressed = QInputDialog.getText(self, "Save as txt", "Please enter name of txt file:", QLineEdit.Normal,
-                                                "")
-        if ok_pressed and text != '':
-            return text
+        # dialog = QInputDialog()
+        # dialog.setWindowFlag(Qt.WindowContextHelpButtonHint, False)
+        text, ok_pressed = QInputDialog().getText(self, "Save as txt", "Please enter name of txt file:", QLineEdit.Normal,
+                                       "")
+        while True:
+            if ok_pressed and text != '':
+                return text
+            elif ok_pressed and text == '':
+                show_warning('Invalid file name', 'Try the menu button again !')
+                return ''
+            else:
+                return ''
 
     def save_printout(self):
         file_name = self.get_file_name()
+        if file_name == '':
+            return
         file_name = 'txt/' + file_name + '.txt'
         if path.exists(file_name):
             show_warning('It already exists', 'Please enter a unique File name !')
