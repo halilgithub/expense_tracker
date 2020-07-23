@@ -36,6 +36,7 @@ Start to fillout a printout. You should enter an amount and description
 then add it as an expense item or deposit item. 
 When removing an item, select the item in the list and press the 'Remove Item' button.
 The buttons for saving and trashing the printout are on the menubar.
+Printouts are saved in 'txt' folder.
 
 | **sample Printout:** |
 |:----:|
