@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 
+
 def show_warning(message_text, informative_text):
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Warning)
@@ -134,6 +135,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def remove_sel_item(self):
         list_items = self.listWidget.selectedItems()
         if not list_items:
+            show_warning('No item is selected', 'Please select an item to remove')
             return
         for item in list_items:
             self.listWidget.takeItem(self.listWidget.row(item))
@@ -148,9 +150,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def get_file_name(self):
         # dialog = QInputDialog()
         # dialog.setWindowFlag(Qt.WindowContextHelpButtonHint, False)
-        text, ok_pressed = QInputDialog().getText(self, "Save as txt", "Please enter name of txt file:", QLineEdit.Normal,
-                                       "")
-
+        text, ok_pressed = QInputDialog().getText(self, "Save as txt", "Please enter name of txt file:",
+                                                  QLineEdit.Normal,
+                                                  "")
         if ok_pressed and text != '':
             return text
         elif ok_pressed and text == '':
