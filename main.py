@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets, uic, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
+from decimal import Decimal
 
 
 def show_warning(message_text, informative_text):
@@ -76,13 +77,18 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.amount == 0.0:
                 raise ValueError
         except ValueError:
-            show_warning('Amount is Invalid or Zero', 'Please enter a Valid amount')
+            show_warning('Amount is Invalid or Zero', 'Please enter a Valid amount other than zero and use .(point) for decimals')
             self.clear_inputs()
             return
 
         self.description = self.descriptionText.text()
         amount_give = abs(self.amount)
-        self.balance -= amount_give
+        if amount_give <= self.balance:
+            self.balance -= amount_give
+        else:
+            self.balance = -1 * (amount_give - self.balance)
+        num = Decimal(str(self.balance))
+        self.balance = float(round(num, 2))
         self.amount = '-' + str(abs(self.amount))
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
@@ -107,13 +113,20 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.amount == 0.0:
                 raise ValueError
         except ValueError:
-            show_warning('Amount is Invalid or Zero', 'Please enter a Valid amount')
+            show_warning('Amount is Invalid', 'Please enter a Valid amount other than zero and use .(point) for decimals')
             self.clear_inputs()
             return
 
         self.description = self.descriptionText.text()
         amount_give = abs(self.amount)
-        self.balance += amount_give
+        if self.balance >= 0.0:
+            self.balance += amount_give
+        elif abs(self.balance) <= amount_give:
+            self.balance = amount_give - abs(self.balance)
+        else:
+            self.balance = -1 * (abs(self.balance) - amount_give)
+        num = Decimal(str(self.balance))
+        self.balance = float(round(num, 2))
         self.amount = '+' + str(abs(self.amount))
         self.description = '{:>40}'.format(self.description)
         self.amount = '{:>40}'.format(self.amount)
@@ -141,6 +154,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.listWidget.takeItem(self.listWidget.row(item))
             amount = float(item.whatsThis())
             self.balance -= amount
+            num = Decimal(str(self.balance))
+            self.balance = float(round(num, 2))
 
         self.update_balance()
 
@@ -187,6 +202,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.clear_inputs()
         self.listWidget.clear()
         self.balanceEdit.setText('')
+        self.balance = 0.0
 
 
 def main():
