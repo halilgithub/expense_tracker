@@ -83,10 +83,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.description = self.descriptionText.text()
         amount_give = abs(self.amount)
-        if amount_give <= self.balance:
-            self.balance -= amount_give
-        else:
-            self.balance = -1 * (amount_give - self.balance)
+        self.balance -= amount_give
         num = Decimal(str(self.balance))
         self.balance = float(round(num, 2))
         self.amount = '-' + str(abs(self.amount))
@@ -119,12 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.description = self.descriptionText.text()
         amount_give = abs(self.amount)
-        if self.balance >= 0.0:
-            self.balance += amount_give
-        elif abs(self.balance) <= amount_give:
-            self.balance = amount_give - abs(self.balance)
-        else:
-            self.balance = -1 * (abs(self.balance) - amount_give)
+        self.balance += amount_give
         num = Decimal(str(self.balance))
         self.balance = float(round(num, 2))
         self.amount = '+' + str(abs(self.amount))
