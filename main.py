@@ -177,6 +177,9 @@ class MainWindow(QtWidgets.QMainWindow):
             return ''
 
     def save_printout(self):
+        if self.listWidget.count() == 0:
+            show_warning('There is no printout to save', 'Please prepare a printout first!')
+            return
         file_name = self.get_file_name()
         if file_name == '':
             return
@@ -207,6 +210,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("Fusion")
     main = MainWindow()
     main.show()
     sys.exit(app.exec_())
